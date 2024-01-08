@@ -8,7 +8,7 @@ class PieChartGenerator {
 
       // Assign color based on status
       if (entry.key == 'Active') {
-        sectionColor = Colors.greenAccent;
+        sectionColor = Colors.green;
       } else if (entry.key == 'Inactive') {
         sectionColor = Colors.yellow;
       } 
@@ -35,11 +35,12 @@ Widget generatePieChart2(Map<String, int> statusCounts) {
       Color sectionColor = Colors.grey; // Default color for other statuses
 
       // Assign color based on status
-      if (entry.key == 'Submitted') {
+      if (entry.key == 'Approved') {
         sectionColor = Colors.green;
-      } else if (entry.key == 'Not Yet Submitted') {
-        sectionColor = Colors.yellowAccent;
-      } 
+      } else if (entry.key == 'Pending') {
+        sectionColor = Colors.yellow;
+      } else if (entry.key == 'Rejected') {
+        sectionColor = Colors.red;}
 
       return PieChartSectionData(
         value: entry.value.toDouble(),

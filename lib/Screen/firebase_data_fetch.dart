@@ -39,8 +39,9 @@ class FirebaseDataFetcher {
 
   Future<Map<String, int>> fetchStatusCounts2() async {
     Map<String, int> statusCounts = {
-      'Submitted': 0,
-      'Not Yet Submitted': 0,
+      'Pending': 0,
+      'Approved': 0,
+      'Rejected':0,
       
 
       // Add more statuses if needed
@@ -53,8 +54,8 @@ class FirebaseDataFetcher {
         Map<dynamic, dynamic> students = snapshot.value as Map<dynamic, dynamic>;
 
         students.forEach((key, value) {
-          if (value != null && value['Status'] != null) {
-            String status = value['Status'];
+          if (value != null && value['StatusEX'] != null) {
+            String status = value['StatusEX'];
             if (statusCounts.containsKey(status)) {
               statusCounts[status] = statusCounts[status]! + 1;
             } else {
