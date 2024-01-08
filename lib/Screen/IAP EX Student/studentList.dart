@@ -65,7 +65,7 @@ class _StudentListState extends State<StudentList> {
                 studentID: studentID,
                 matric: matric,
                 name: name,
-                svemail: svemail,
+                exemail: svemail,
               );
               userData.add(user);
               originalUserData.add(user);
@@ -235,7 +235,7 @@ class _StudentListState extends State<StudentList> {
             name: 'No student found',
             matric: '',
             studentID: '',
-            svemail: '',
+            exemail: '',
           ),
         ];
       }

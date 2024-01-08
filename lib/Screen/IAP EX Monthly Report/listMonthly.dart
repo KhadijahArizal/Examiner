@@ -1,4 +1,3 @@
-// ignore_for_file: camel_case_types
 
 import 'package:examiner/Screen/IAP%20EX%20Student/studentDetails.dart';
 import 'package:examiner/Screen/common/models.dart';
@@ -23,14 +22,14 @@ class _listOfStudentMonthlyState extends State<listOfStudentMonthly> {
   late DatabaseReference _monthlyReport;
   late List<UserDataC> userData = [];
   List<MonthlyReportC> monthlyReports = [];
-  late DatabaseReference _supervisorRef;
+  late DatabaseReference _examinerRef;
   List<UserDataC> originalUserData = [];
   late DatabaseReference _monthlyReportCountsRef;
 
   @override
   void initState() {
     super.initState();
-    _supervisorRef =
+    _examinerRef =
         FirebaseDatabase.instance.ref('Student').child('Assign Examiner');
     _iapFormRef =
         FirebaseDatabase.instance.ref().child('Student').child('IAP Form');
@@ -48,25 +47,25 @@ class _listOfStudentMonthlyState extends State<listOfStudentMonthly> {
 
   Future<void> _fetchUserData() async {
     try {
-      String supervisorEmail = '${user?.email}';
+      String examinerEmail = '${user?.email}';
       DataSnapshot iapSnapshot =
           await _iapFormRef.once().then((event) => event.snapshot);
       DataSnapshot monthlyReportSnapshot =
           await _monthlyReport.once().then((event) => event.snapshot);
-      DataSnapshot svReportSnapshot =
-          await _supervisorRef.once().then((event) => event.snapshot);
+      DataSnapshot exReportSnapshot =
+          await _examinerRef.once().then((event) => event.snapshot);
 
       Map<dynamic, dynamic>? iapData =
           iapSnapshot.value as Map<dynamic, dynamic>?;
       Map<dynamic, dynamic>? monthlyReportData =
           monthlyReportSnapshot.value as Map<dynamic, dynamic>?;
-      Map<dynamic, dynamic>? svReportData =
-          svReportSnapshot.value as Map<dynamic, dynamic>?;
+      Map<dynamic, dynamic>? exReportData =
+          exReportSnapshot.value as Map<dynamic, dynamic>?;
 
       if (iapData != null &&
           monthlyReportData != null &&
-          svReportData != null) {
-        svReportData.forEach((key, value) {
+          exReportData != null) {
+        exReportData.forEach((key, value) {
           if (value is Map<dynamic, dynamic> &&
               monthlyReportData.containsKey(key) &&
               iapData.containsKey(key)) {
@@ -75,8 +74,8 @@ class _listOfStudentMonthlyState extends State<listOfStudentMonthly> {
             String name = iapData[key]['Name'] ?? '';
             String studentID = iapData[key]['Student ID'] ?? '';
 
-            //svemail
-            String svemail = svReportData[key]['ExaminerEmail'] ?? '';
+            //exemail
+            String exemail = exReportData[key]['ExaminerEmail'] ?? '';
 
             //monthly
             List<MonthlyReportC> monthlyReports = [];
@@ -93,12 +92,12 @@ class _listOfStudentMonthlyState extends State<listOfStudentMonthly> {
                 monthlyReports.add(monthlyReport);
               });
             }
-            if (svemail == supervisorEmail) {
+            if (exemail == examinerEmail) {
               UserDataC user = UserDataC(
                 studentID: studentID,
                 matric: matric,
                 name: name,
-                svemail: svemail,
+                exemail: exemail,
                 monthlyReports: monthlyReports,
                 finalReport: FinalReportC(
                     date: '',
@@ -264,7 +263,7 @@ class _listOfStudentMonthlyState extends State<listOfStudentMonthly> {
                                 name: 'No student found',
                                 matric: '',
                                 studentID: '',
-                                svemail: '',
+                                exemail: '',
                                 monthlyReports: [],
                                 finalReport: FinalReportC(
                                   date: '',

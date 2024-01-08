@@ -18,7 +18,7 @@ class listOfStudentFinal extends StatefulWidget {
 
 class _listOfStudentFinalState extends State<listOfStudentFinal> {
   User? user = FirebaseAuth.instance.currentUser;
-  late DatabaseReference _supervisorRef;
+  late DatabaseReference _examinerRef;
   late DatabaseReference _iapFormRef;
   late DatabaseReference _monthlyReport;
   late DatabaseReference _finalReport;
@@ -29,7 +29,7 @@ class _listOfStudentFinalState extends State<listOfStudentFinal> {
   @override
   void initState() {
     super.initState();
-    _supervisorRef =
+    _examinerRef =
         FirebaseDatabase.instance.ref('Student').child('Assign Examiner');
     _iapFormRef =
         FirebaseDatabase.instance.ref().child('Student').child('IAP Form');
@@ -44,13 +44,13 @@ class _listOfStudentFinalState extends State<listOfStudentFinal> {
 
   Future<void> _fetchUserData() async {
     try {
-      String supervisorEmail = '${user?.email}';
+      String examinerEmail = '${user?.email}';
       DataSnapshot iapSnapshot =
           await _iapFormRef.once().then((event) => event.snapshot);
       DataSnapshot monthlyReportSnapshot =
           await _monthlyReport.once().then((event) => event.snapshot);
-      DataSnapshot svReportSnapshot =
-          await _supervisorRef.once().then((event) => event.snapshot);
+      DataSnapshot exReportSnapshot =
+          await _examinerRef.once().then((event) => event.snapshot);
       DataSnapshot finalReportSnapshot =
           await _finalReport.once().then((event) => event.snapshot);
 
@@ -60,25 +60,23 @@ class _listOfStudentFinalState extends State<listOfStudentFinal> {
           monthlyReportSnapshot.value as Map<dynamic, dynamic>?;
       Map<dynamic, dynamic>? finalReportData =
           finalReportSnapshot.value as Map<dynamic, dynamic>?;
-      Map<dynamic, dynamic>? svReportData =
-          svReportSnapshot.value as Map<dynamic, dynamic>?;
+      Map<dynamic, dynamic>? exReportData =
+          exReportSnapshot.value as Map<dynamic, dynamic>?;
 
       if (iapData != null &&
           monthlyReportData != null && 
-          svReportData != null &&
+          exReportData != null &&
           finalReportData != null) {
-        svReportData.forEach((key, value) {
+        exReportData.forEach((key, value) {
           if (value is Map<dynamic, dynamic> &&
               finalReportData.containsKey(key) &&
               monthlyReportData.containsKey(key) &&
               iapData.containsKey(key)) {
-            //iap
+
             String matric = iapData[key]['Matric'] ?? '';
             String name = iapData[key]['Name'] ?? '';
             String studentID = iapData[key]['Student ID'] ?? '';
-
-            //svemail
-            String svemail = svReportData[key]['ExaminerEmail'] ?? '';
+            String exemail = exReportData[key]['ExaminerEmail'] ?? '';
 
             //monthly
             List<MonthlyReportC> monthlyReports = [];
@@ -105,17 +103,16 @@ class _listOfStudentFinalState extends State<listOfStudentFinal> {
           String status = finalReportData[key]['Status'] ?? '';
           String StatusEX = finalReportData[key]['StatusEX'] ?? '';
 
-          if (svemail == supervisorEmail &&
+          if (exemail == examinerEmail &&
               date.isNotEmpty &&
-              file.isNotEmpty && // Check if 'File' is not an empty string
+              file.isNotEmpty &&
               fileName.isNotEmpty &&
               title.isNotEmpty) {
-            // Add the user to the list
             UserDataC user = UserDataC(
               studentID: studentID,
               matric: matric,
               name: name,
-              svemail: svemail,
+              exemail: exemail,
               monthlyReports: monthlyReports,
               finalReport: FinalReportC(
                 date: date,
@@ -265,7 +262,7 @@ class _listOfStudentFinalState extends State<listOfStudentFinal> {
                                 name: 'No student found',
                                 matric: '',
                                 studentID: '',
-                                svemail: '',
+                                exemail: '',
                                 monthlyReports: [],
                                 finalReport: FinalReportC(
                                   date: '',

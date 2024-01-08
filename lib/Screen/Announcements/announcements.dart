@@ -6,8 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-
 
 class Announc extends StatefulWidget {
   const Announc({super.key});
@@ -31,8 +29,9 @@ class _AnnouncState extends State<Announc> {
     super.initState();
     if (user != null) {
       //Announc
-      _announcRef =
-          FirebaseDatabase.instance.ref('Examiners').child('Examiner Announcements');
+      _announcRef = FirebaseDatabase.instance
+          .ref('Examiners')
+          .child('Examiner Announcements');
       _userAnnouncFuture = _fetchAnnouncData();
     }
   }
@@ -128,7 +127,7 @@ class _AnnouncState extends State<Announc> {
       ),
       children: <Widget>[
         Container(
-          width: double.infinity, // Use a fixed width or adjust as needed
+          width: double.infinity,
           child: ListTile(
             leading: Text(
               information,
@@ -168,7 +167,6 @@ class _AnnouncState extends State<Announc> {
         TextEditingController(text: announcements[index].title);
     TextEditingController editInfoController =
         TextEditingController(text: announcements[index].info);
-    //TextEditingController editFileName = TextEditingController(text: announcements[index].fileName);
 
     showDialog(
       context: context,
@@ -189,11 +187,6 @@ class _AnnouncState extends State<Announc> {
                     controller: editTitleController,
                     decoration: const InputDecoration(labelText: "Title"),
                   ),
-                  const SizedBox(height: 10),
-                  /*TextFormField(
-                    controller: editFileName,
-                    decoration: const InputDecoration(labelText: "File Name"),
-                  ),*/
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: editInfoController,
@@ -219,8 +212,7 @@ class _AnnouncState extends State<Announc> {
                         onPressed: () {
                           setState(() {
                             announcements[index].title =
-                                editTitleController.text;
-                            //announcements[index].fileName = editFileName.text;
+                            editTitleController.text;
                             announcements[index].info = editInfoController.text;
                           });
                           Navigator.pop(context);
@@ -348,50 +340,6 @@ class _AnnouncState extends State<Announc> {
                   style: TextStyle(color: Colors.black54, fontSize: 15),
                   textAlign: TextAlign.center,
                 ),
-                /*Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(color: Colors.grey, blurRadius: 1.0)
-                      ],
-                    ),
-                    child: Consumer<Data>(
-                        builder: (context, announcProvider, child) {
-                      announcements = announcProvider.Announcs;
-                      return const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          
-                          //headline
-                          /*const Text(
-                            'Important Annoucements',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontFamily: 'Futura',
-                                fontWeight: FontWeight.w900),
-                          ),
-                          ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: announcements.length,
-                            itemBuilder: (context, index) {
-                              return _buildCustomExpansionTile(
-                                index,
-                                announcements[index].title,
-                                '${user?.displayName}',
-                                announcements[index].info,
-                                announcements[index].fileName,
-                                announcements[index].date,
-                              );
-                            },
-                          ),*/
-                        ],
-                      );
-                    })),
-              */
               ],
             ),
           ),
@@ -403,19 +351,6 @@ class _AnnouncState extends State<Announc> {
       ),
       floatingActionButton: const FloatingActionButton(
         onPressed: null,
-        /* () async {
-         ThisUpload? result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Upload(),
-            ),
-          );
-          if (result != null) {
-            setState(() {
-              announcements.add(result);
-            });
-          }
-        },*/
         backgroundColor: Colors.grey,
         child: Icon(Icons.add_rounded, color: Colors.white),
       ),

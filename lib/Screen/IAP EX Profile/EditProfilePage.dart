@@ -32,7 +32,7 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    var svData = Provider.of<Data>(context);
+    var exData = Provider.of<Data>(context);
     return Scaffold(
       backgroundColor: const Color.fromRGBO(244, 243, 243, 1),
       appBar: AppBar(
@@ -124,28 +124,29 @@ class _EditProfileState extends State<EditProfile> {
                                   const SizedBox(height: 16),
                                   TextFormField(
                                     key: UniqueKey(),
-                                    controller: svData.contact,
+                                    controller: exData.contact,
                                     keyboardType: TextInputType.phone,
                                     decoration: InputDecoration(
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: const BorderSide(
-                                          width: 0,
-                                          style: BorderStyle.none,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          borderSide: const BorderSide(
+                                            width: 0,
+                                            style: BorderStyle.none,
+                                          ),
                                         ),
-                                      ),
-                                      fillColor: Colors.grey[100],
-                                      filled: true,
-                                      prefixIcon:
-                                          const Icon(Icons.phone_rounded),
-                                      labelText: 'Phone No',
-                                      hintText: 'Start with your country code. Ex, +62, +60'
-                                    ),
+                                        fillColor: Colors.grey[100],
+                                        filled: true,
+                                        prefixIcon:
+                                            const Icon(Icons.phone_rounded),
+                                        labelText: 'Phone No',
+                                        hintText:
+                                            'Start with your country code. Ex, +62, +60'),
                                   ),
                                   const SizedBox(height: 16),
                                   TextFormField(
                                     key: UniqueKey(),
-                                    controller: svData.compName,
+                                    controller: exData.compName,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -173,9 +174,9 @@ class _EditProfileState extends State<EditProfile> {
                                           print('Name: ${name.text}');
                                           print('Email: ${email.text}');
                                           print(
-                                              'Contact: ${svData.contact.text}');
+                                              'Contact: ${exData.contact.text}');
                                           print(
-                                              'Department: ${svData.compName.text}');
+                                              'Department: ${exData.compName.text}');
                                           User? user =
                                               FirebaseAuth.instance.currentUser;
 
@@ -190,11 +191,15 @@ class _EditProfileState extends State<EditProfile> {
                                             userRef.set({
                                               'Examiner Name': name.text,
                                               'Email': email.text,
-                                              'Contact No': svData.contact.text,
-                                              'Department': svData.compName.text,
+                                              'Contact No': exData.contact.text,
+                                              'Department':
+                                                  exData.compName.text,
                                             }).then((_) {
-                                              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+                                              Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const ProfilePage()));
                                             });
                                           }
                                         },

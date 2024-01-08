@@ -10,17 +10,17 @@ import 'package:flutter/services.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage(
       {Key? key,
-      this.supervisorName,
-      this.supervisorEmail,
-      this.supervisorID,
-      this.companyName,
+      this.examinerName,
+      this.examinerEmail,
+      this.examinerID,
+      this.departmentName,
       this.phoneNo})
       : super(key: key);
 
-  final String? supervisorName,
-      supervisorEmail,
-      supervisorID,
-      companyName,
+  final String? examinerName,
+      examinerEmail,
+      examinerID,
+      departmentName,
       phoneNo;
 
   @override
@@ -61,13 +61,13 @@ class _ProfilePageState extends State<ProfilePage>
             String name = value['Examiner Name'] ?? '';
             String email = value['Email'] ?? '';
             String contact = value['Contact No'] ?? '';
-            String company = value['Department'] ?? '';
+            String department = value['Department'] ?? '';
 
             UserData user = UserData(
               userId: userId,
               name: name,
               email: email,
-              company: company,
+              department: department,
               contact: contact,
             );
             userDataList.add(user);
@@ -81,10 +81,10 @@ class _ProfilePageState extends State<ProfilePage>
     return userDataList;
   }
 
-  String generateSupervisorID(User user) {
-    String supervisorID = 'EX${user.uid.substring(0, 4)}';
+  String generateexaminerID(User user) {
+    String examinerID = 'EX${user.uid.substring(0, 4)}';
 
-    return supervisorID;
+    return examinerID;
   }
 
   Widget _name({required String name}) => Container(
@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage>
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     AuthService authService = AuthService();
-    String supervisorID = generateSupervisorID(user!);
+    String examinerID = generateexaminerID(user!);
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(244, 243, 243, 1),
@@ -302,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                                   '-'),
                                                           _buildDetail2(
                                                               'Examiner ID',
-                                                              supervisorID),
+                                                              examinerID),
                                                         ]),
                                                     Row(children: [
                                                       _buildDetail('Email',
@@ -315,7 +315,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                     Row(children: [
                                                       _buildDetail(
                                                           'Department',
-                                                          user?.company ?? '-'),
+                                                          user?.department ?? '-'),
                                                     ]),
                                                     const SizedBox(height: 70),
                                                   ],
@@ -361,14 +361,14 @@ class UserData {
   final String userId;
   final String name;
   final String email;
-  final String company;
+  final String department;
   final String contact;
 
   UserData({
     required this.userId,
     required this.name,
     required this.email,
-    required this.company,
+    required this.department,
     required this.contact,
   });
 }
