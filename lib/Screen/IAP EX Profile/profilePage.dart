@@ -1,15 +1,11 @@
 import 'package:examiner/Screen/IAP%20EX%20Profile/EditProfilePage.dart';
 import 'package:examiner/Screen/auth_service.dart';
+import 'package:examiner/Screen/dashboard.dart';
 import 'package:examiner/Screen/sideNav.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-
-void main() => runApp(const MaterialApp(
-      debugShowCheckedModeBanner: false,
-    ));
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage(
@@ -157,11 +153,12 @@ class _ProfilePageState extends State<ProfilePage>
             color: Colors.black87.withOpacity(0.7), // Use the specified color
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/summary');
+            Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const Dashboard(title: '',)));
           },
         ),
         title: const Text(
-          'Profile',
+          'Examiner Profile',
           style: TextStyle(
               color: Colors.black87,
               fontSize: 30,

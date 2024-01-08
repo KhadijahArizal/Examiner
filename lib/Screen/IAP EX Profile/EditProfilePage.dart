@@ -1,3 +1,4 @@
+import 'package:examiner/Screen/IAP%20EX%20Profile/profilePage.dart';
 import 'package:examiner/Screen/data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -156,7 +157,7 @@ class _EditProfileState extends State<EditProfile> {
                                       fillColor: Colors.grey[100],
                                       filled: true,
                                       prefixIcon: const Icon(Icons.business),
-                                      labelText: 'Company Name',
+                                      labelText: 'Department Name',
                                     ),
                                   ),
                                   const SizedBox(height: 16)
@@ -192,8 +193,8 @@ class _EditProfileState extends State<EditProfile> {
                                               'Contact No': svData.contact.text,
                                               'Department': svData.compName.text,
                                             }).then((_) {
-                                              Navigator.pushNamed(
-                                                  context, '/profile');
+                                              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()));
                                             });
                                           }
                                         },

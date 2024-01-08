@@ -4,10 +4,12 @@ import 'package:examiner/Screen/IAP%20EX%20Student/studentDetails.dart';
 import 'package:examiner/Screen/IAP%20EX%20Student/studentList.dart';
 import 'package:examiner/Screen/authlatest.dart';
 import 'package:examiner/Screen/dashboard.dart';
+import 'package:examiner/Screen/data.dart';
 import 'package:examiner/Screen/start.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 
 void main() async {
@@ -23,7 +25,12 @@ void main() async {
       appId: "1:753383357173:web:8ed039663a24205f9fe3bc",
       measurementId: "G-0LXK2QRZMH"),
     );
-  runApp(MyApp());
+ runApp( 
+    ChangeNotifierProvider<Data>( // Wrap your MaterialApp with ChangeNotifierProvider
+      create: (context) => Data(), // Replace Data() with your actual Data class instantiation
+      child: MyApp(), // Your MyApp widget becomes the child
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -69,7 +76,6 @@ class _MyAppState extends State<MyApp> {
               matric: '',
               studentID: '',
             ),
-        //'/profile': (context) => const ProfilePage(),
       },
     );
   }
